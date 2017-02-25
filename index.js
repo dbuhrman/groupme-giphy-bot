@@ -35,7 +35,7 @@ app.post('/', (req, res) => {
     console.log('Received groupme message', req.body);
 
     // Don't care about this message, move-on with our lives.
-    const textMatch = req.body.match(/^giphy (.*)$/);
+    const textMatch = req.body.text.match(/^giphy (.*)$/);
     if(req.body.sender_type === 'bot' || !textMatch) return res.sendStatus(200);
 
     giphyApi.search(textMatch[1]).then(giphys => {
