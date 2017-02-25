@@ -3,8 +3,8 @@
 require('./globals');
 
 const express = require('express'),
+    https = require('https'),
     bodyParser = require('body-parser'),
-    request = require('request'),
     app = express();
 
 // JSON parser middleware
@@ -18,25 +18,27 @@ app.get('/', (req, res) => {
 // Groupme messages handler
 app.post('/', (req, res) => {
     console.log('Received groupme message', req.body);
-    const body = JSON.stringify({
+
+    const botRequest = https.request({
+        hostname: 'api.groupme.com',
+        path: '/v3/bots/post',
+        method: 'POST'
+    }, res => {
+        console.log('Status code response from groupme post: ', res && res.statusCode);
+    });
+
+    const body = {
         bot_id: BOT_ID,
         text: req.body.text
-    });
-    console.log('Sending body:', body);
-    request({
-        method: 'POST',
-        uri: `https://api.groupme.com/v3/bots/post`,
-        json: true,
-        body
-    }, (err, res, body) => {
-        console.log('Groupme message POST response.');
-        if(err) {
-            console.error(err);
-        } else {
-            console.log(`Status code ${res && res.statusCode}`);
-            console.log('Body:', body);
-        }
-    });
+    };
+
+    botRequest.on('error', err => {
+        console.error('Error from groupme post: ', err);
+    }).on('timeout', err => {
+        console.error('Timeout from groupme post:', err);
+    }).end(JSON.stringify(body));
+
+
     res.sendStatus(200);
 });
 
