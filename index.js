@@ -17,6 +17,7 @@ app.get('/', (req, res) => {
 
 // Groupme messages handler
 app.post('/', (req, res) => {
+    console.log('Received groupme message', req.body);
     request({
         method: 'POST',
         uri: `https://api.groupme.com/v3/bots/post`,
