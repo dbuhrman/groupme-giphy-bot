@@ -26,8 +26,14 @@ app.post('/', (req, res) => {
             bot_id: BOT_ID,
             text: req.body.text
         })
-    }, err => {
-        if(err) console.error(err);
+    }, (err, res, body) => {
+        console.log('Groupme message POST response.');
+        if(err) {
+            console.error(err);
+        } else {
+            console.log(`Status code ${res && res.statusCode}`);
+            console.log('Body:', body);
+        }
     });
     res.sendStatus(200);
 });
