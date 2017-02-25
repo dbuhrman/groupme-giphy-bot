@@ -1,0 +1,22 @@
+{
+  "name": "groupme-giphy-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dbuhrman/groupme-giphy-bot.git"
+  },
+  "author": "Dan Buhrman",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/dbuhrman/groupme-giphy-bot/issues"
+  },
+  "homepage": "https://github.com/dbuhrman/groupme-giphy-bot#readme",
+  "dependencies": {
+    "express": "^4.14.1"
+  }
+}
