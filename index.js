@@ -22,7 +22,7 @@ app.post('/', (req, res) => {
         uri: `https://api.groupme.com/v3/bots/post`,
         json: true,
         body: JSON.stringify({
-            bot_id: secrets.bot_id,
+            bot_id: BOT_ID,
             text: req.body.text
         })
     }, err => {
