@@ -18,14 +18,16 @@ app.get('/', (req, res) => {
 // Groupme messages handler
 app.post('/', (req, res) => {
     console.log('Received groupme message', req.body);
+    const body = JSON.stringify({
+        bot_id: BOT_ID,
+        text: req.body.text
+    });
+    console.log('Sending body:', body);
     request({
         method: 'POST',
         uri: `https://api.groupme.com/v3/bots/post`,
         json: true,
-        body: JSON.stringify({
-            bot_id: BOT_ID,
-            text: req.body.text
-        })
+        body
     }, (err, res, body) => {
         console.log('Groupme message POST response.');
         if(err) {
