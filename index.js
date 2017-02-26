@@ -36,7 +36,7 @@ app.post('/', (req, res) => {
     // Don't care about this message, move-on with our lives.
     const textMatch = req.body.text.match(/^giphy (.*)$/i);
     if(req.body.sender_type === 'bot' || !textMatch || !BOTS[req.body.group_id]) {
-        console.log(BOTS[req.body.group_id]);
+        console.log(BOTS, req.body.group_id, BOTS[req.body.group_id]);
         return res.sendStatus(200);
     }
 
