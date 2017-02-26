@@ -35,14 +35,14 @@ app.post('/', (req, res) => {
 
     // Don't care about this message, move-on with our lives.
     const textMatch = req.body.text.match(/^giphy (.*)$/i);
-    if(req.body.sender_type === 'bot' || !textMatch) return res.sendStatus(200);
+    if(req.body.sender_type === 'bot' || !textMatch || !BOTS[req.body.group_id]) return res.sendStatus(200);
 
     giphyApi.search(textMatch[1]).then(giphys => {
         if(giphys.data && giphys.data.length > 0) {
             const randomGif = giphys.data[Math.floor(Math.random() * giphys.data.length)];
-            sendBotMessage(`http://i.giphy.com/${randomGif.id}.gif`);
+            sendBotMessage(BOTS[req.body.group_id], `http://i.giphy.com/${randomGif.id}.gif`);
         } else {
-            sendBotMessage(`No giphys found for search ${textMatch[1]}. :'(`);
+            sendBotMessage(BOTS[req.body.group_id], `No giphys found for search ${textMatch[1]}. :'(`);
         }
 
         res.sendStatus(200);
@@ -53,8 +53,8 @@ app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
 });
 
-const sendBotMessage = text => {
-    const body = { bot_id: BOT_ID, text};
+const sendBotMessage = (bot_id, text) => {
+    const body = { bot_id, text };
     console.log('Sending bot post request: ', body);
     https.request({
         hostname: 'api.groupme.com',
