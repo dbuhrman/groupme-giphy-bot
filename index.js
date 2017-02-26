@@ -51,11 +51,16 @@ app.post('/', (req, res) => {
         res.sendStatus(200);
     });
 });
-
+// Startup express.js server.
 app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
 });
 
+/**
+ * Send a message to groupme as a bot
+ * @param bot_id ID of the bot to send message as.
+ * @param text Content of the message.
+ */
 const sendBotMessage = (bot_id, text) => {
     const body = { bot_id, text };
     console.log('Sending bot post request: ', body);
