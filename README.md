@@ -8,7 +8,7 @@ While you can install this on any service that supports NodeJS servers, heroku i
 1. Fork this repository and checkout your fork somewhere locally.
 2. Run `npm install`
 3. Ensure you have heroku CLI installed and [setup](https://devcenter.heroku.com/articles/getting-started-with-nodejs#set-up).
-4. `heroku create` (Optional give it a name, or not the random name generated)
+4. `heroku create` (Optional give it a name, or note the random name generated)
 5. Create a group me bot for each group you want giphy bot in at https://dev.groupme.com/bots
   - Set the 'Callback URL' to your heroku URL
 6. Set heroku environment variables of group_ids and bot_ids in this format:
@@ -28,7 +28,9 @@ For instance, `giphy katy perry` will likely return a gif of katy perry.  Howeve
 
 ## Further customization
 
-The sky is the limit.  This bot is intentionally meant to be stupid simple, while utilizing node modules to help avoid edge-cases and simply any complexities.  The entire bot is in index.js, and currently is < 80 LOC
+The sky is the limit.  This bot is intentionally meant to be stupid simple, while utilizing node modules to help avoid edge-cases and simplify any complexities.  The entire bot is in index.js, and currently is < 80 LOC.
+
+Currently used node modules:
 
   * express.js - Groupme sends a POST request to the 'Callback URL' specified in the bot configuration, express is used to handle these requests with body-parser middleware to easily parse the JSON data.
   * https - The built-in HTTPS module for nodejs is used to send API requests back to groupme.  This request is always the same to /v3/bots/post to post a message in the group chat as the bot.
