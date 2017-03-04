@@ -1,12 +1,15 @@
 'use strict';
 
-require('./globals');
-
 const express = require('express'),
     https = require('https'),
     bodyParser = require('body-parser'),
     giphyApi = require('giphy-api')(),
+    groupme = require('groupme').Stateless,
+    PORT = process.env.PORT || 5500,
+    GROUPME_API_KEY = process.env.GROUPME_API_KEY,
     app = express();
+
+let BOTS = [];
 
 // JSON parser middleware
 app.use(bodyParser.json());
@@ -25,7 +28,7 @@ app.get('/', (req, res) => {
             res.status(400).send(`Error with giphy API: ${err}`);
         });
     } else {
-        res.send("I'm alive!!! WHHAHHAHAH");
+        refreshGroupmeBots().then(res.send.bind(res, "I'm alive!!! WHHAHHAHAH"));
     }
 });
 
@@ -51,10 +54,20 @@ app.post('/', (req, res) => {
         res.sendStatus(200);
     });
 });
-// Startup express.js server.
-app.listen(PORT, () => {
-    console.log(`Listening on port ${PORT}`);
-});
+
+const refreshGroupmeBots = () => {
+    return groupme.Bots.index.Q(GROUPME_API_KEY)
+        .then(bots => {
+            BOTS = bots.filter(b => b.name.toLowerCase() === 'giphy')
+                .reduce((res, b) => {
+                    res[b.group_id] = b.bot_id;
+                    return res;
+                }, {});
+        })
+        .catch(err => {
+            console.error('Error refreshing groupme bots: ', err);
+        })
+};
 
 /**
  * Send a message to groupme as a bot
@@ -76,3 +89,11 @@ const sendBotMessage = (bot_id, text) => {
         console.error('Timeout from groupme post:', err);
     }).end(JSON.stringify(body));
 };
+
+// Startup express.js server.
+refreshGroupmeBots().then(() => {
+    console.log(BOTS);
+    app.listen(PORT, () => {
+        console.log(`Listening on port ${PORT}`);
+    });
+});

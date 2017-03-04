@@ -21,6 +21,7 @@
     "body-parser": "^1.16.1",
     "express": "^4.14.1",
     "giphy-api": "^1.2.3",
+    "groupme": "^0.5.7",
     "request": "^2.79.0"
   }
 }
