@@ -9,12 +9,10 @@ While you can install this on any service that supports NodeJS servers, heroku i
 2. Run `npm install`
 3. Ensure you have heroku CLI installed and [setup](https://devcenter.heroku.com/articles/getting-started-with-nodejs#set-up).
 4. `heroku create` (Optional give it a name, or note the random name generated)
-5. Create a group me bot for each group you want giphy bot in at https://dev.groupme.com/bots
+5. Create a groupme bot for each group you want giphy bot in at https://dev.groupme.com/bots
   - Set the 'Callback URL' to your heroku URL
-6. Set heroku environment variables of group_ids and bot_ids in this format:
-  - `BOT_IDS=[first_group_id]=[first_bot_id];[second_group_id]=[second_bot_id];...`
-  - e.g.
-      - `heroku config:set BOT_IDS=group123=bot123;group234=bot234`
+6. Get a groupme access token at https://dev.groupme.com/applications/new
+  - `heroku config:set GROUPME_API_KEY=[GROUPME_ACCESS_TOKEN]`
 7. Deploy the bot: `git push heroku master`
 8. Ensure one instance is running `heroku ps:scale web=1`
 9. Test everything is up: `heroku open`
@@ -28,7 +26,7 @@ For instance, `giphy katy perry` will likely return a gif of katy perry.  Howeve
 
 ## Further customization
 
-The sky is the limit.  This bot is intentionally meant to be stupid simple, while utilizing node modules to help avoid edge-cases and simplify any complexities.  The entire bot is in index.js, and currently is < 80 LOC.
+The sky is the limit.  This bot is intentionally meant to be stupid simple, while utilizing node modules to help avoid edge-cases and simplify any complexities.  The entire bot is in index.js, and currently is < 100 LOC.
 
 Currently used node modules:
 
